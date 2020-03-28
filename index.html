@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Selection Tests for Cross-slide coordinated viewing</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+  </head>
+  <body>
+    <h1 id="heading">
+      Code challenge for 'Cross-Slide Coordinated Viewing'
+    </h1>
+    <input type="checkbox" hidden="hidden" id="sync_toggle" />
+    <label class="switch" for="sync_toggle"><br /><br />Sync</label>
+    <div class="container">
+      <div id="leftSlide"></div>
+      <div id="rightSlide"></div>
+    </div>
+    <script src="./openseadragon/openseadragon.min.js"></script>
+    <script type="text/javascript">
+      var leftViewer = OpenSeadragon({
+        id: 'leftSlide',
+        prefixUrl: './openseadragon/images/',
+        tileSources: {
+          Image: {
+            xmlns: 'http://schemas.microsoft.com/deepzoom/2008',
+            Url: './prostate_slide_files/',
+            Format: 'jpg',
+            Overlap: '0',
+            TileSize: '256',
+            Size: {
+              Width: '2700',
+              Height: '1800'
+            }
+          }
+        },
+        autoHideControls: false
+      });
+      var rightViewer = OpenSeadragon({
+        id: 'rightSlide',
+        prefixUrl: './openseadragon/images/',
+        tileSources: {
+          Image: {
+            xmlns: 'http://schemas.microsoft.com/deepzoom/2008',
+            Url: './prostate_slide_files/',
+            Format: 'jpg',
+            Overlap: '0',
+            TileSize: '256',
+            Size: {
+              Width: '2700',
+              Height: '1800'
+            }
+          }
+        },
+        autoHideControls: false
+      });
+    </script>
+  </body>
+</html>
