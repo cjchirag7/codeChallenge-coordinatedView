@@ -88,6 +88,10 @@ function rotateRightSlide(e) {
   }
 }
 
+function toRadians(angle) {
+  return angle * (Math.PI / 180);
+}
+
 let leftViewerLeading = false;
 let rightViewerLeading = false;
 
@@ -103,9 +107,12 @@ function leftHandler() {
     rightViewer.viewport.zoomTo(finalZoom);
     deltaX = leftViewer.viewport.getCenter().x - initialLeftCenter.x;
     deltaY = leftViewer.viewport.getCenter().y - initialLeftCenter.y;
+    let deltaPoint = new OpenSeadragon.Point(deltaX, deltaY).rotate(
+      leftViewer.viewport.getRotation() - rightViewer.viewport.getRotation()
+    ); // The change in coordinates in the frame of the rightViewer
     let targetCenter = new OpenSeadragon.Point(
-      initialRightCenter.x + deltaX,
-      initialRightCenter.y + deltaY
+      initialLeftCenter.x + deltaPoint.x,
+      initialLeftCenter.y + deltaPoint.y
     );
     rightViewer.viewport.panTo(targetCenter);
     leftViewerLeading = false;
@@ -124,9 +131,12 @@ function rightHandler() {
     leftViewer.viewport.zoomTo(finalZoom);
     deltaX = rightViewer.viewport.getCenter().x - initialRightCenter.x;
     deltaY = rightViewer.viewport.getCenter().y - initialRightCenter.y;
+    let deltaPoint = new OpenSeadragon.Point(deltaX, deltaY).rotate(
+      rightViewer.viewport.getRotation() - leftViewer.viewport.getRotation()
+    ); // The change in coordinates in the frame of the leftViewer
     let targetCenter = new OpenSeadragon.Point(
-      initialLeftCenter.x + deltaX,
-      initialLeftCenter.y + deltaY
+      initialLeftCenter.x + deltaPoint.x,
+      initialLeftCenter.y + deltaPoint.y
     );
     leftViewer.viewport.panTo(targetCenter);
     rightViewerLeading = false;
