@@ -18,3 +18,9 @@ Hosted at : https://cjchirag7.github.io/codeChallenge-coordinatedView/index.html
 
  ## Screencast of the website
 [![Watch the screencast](https://github-projects.s3.ap-south-1.amazonaws.com/coding-challenge-demo.gif)](https://github-projects.s3.ap-south-1.amazonaws.com/coding-challenge-demo.gif)
+
+## Screenshot of Mobile View
+![Mobile view](https://github-projects.s3.ap-south-1.amazonaws.com/mobile-screenshot.png)
+
+## Screenshot of Desktop View
+![Desktop view](https://github-projects.s3.ap-south-1.amazonaws.com/Desktop-screenshot.png)
