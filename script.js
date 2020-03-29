@@ -41,7 +41,7 @@ let rightAngleDisplay = document.getElementById('rightSlideAngle');
 let leftSlider = document.getElementById('leftRotateSlider');
 let rightSlider = document.getElementById('rightRotateSlider');
 
-let syncToggler = document.getElementById('sync_toggler');
+let syncToggler = document.getElementById('sync_toggler'); // checkbox to toggle 'sync'
 let initialLeftAngle = +leftSlider.value;
 let initialRightAngle = +rightSlider.value;
 let initialLeftCenter = leftViewer.viewport.getCenter();
@@ -53,6 +53,7 @@ let sync;
 function toggleSync() {
   sync = syncToggler.checked;
   if (sync) {
+    // store initial configuration of both slides
     initialLeftAngle = +leftSlider.value;
     initialRightAngle = +rightSlider.value;
     initialLeftCenter = leftViewer.viewport.getCenter();
@@ -63,7 +64,7 @@ function toggleSync() {
 }
 
 function rotateLeftSlide() {
-  let angle = +leftSlider.value;
+  let angle = +leftSlider.value; // Implict conversion of String to Number
   leftViewer.viewport.setRotation(angle);
   leftAngleDisplay.innerHTML = `${angle} deg.`;
   if (sync) {
@@ -88,16 +89,12 @@ function rotateRightSlide(e) {
   }
 }
 
-function toRadians(angle) {
-  return angle * (Math.PI / 180);
-}
-
 let leftViewerLeading = false;
 let rightViewerLeading = false;
 
 function leftHandler() {
   if (rightViewerLeading) {
-    return;
+    return; // to prevent unnecessary call stack of the event handler
   }
 
   if (sync) {
@@ -105,15 +102,18 @@ function leftHandler() {
     let zoomRatio = leftViewer.viewport.getZoom() / initialLeftZoom;
     let finalZoom = zoomRatio * initialRightZoom;
     rightViewer.viewport.zoomTo(finalZoom);
+
     deltaX = leftViewer.viewport.getCenter().x - initialLeftCenter.x;
     deltaY = leftViewer.viewport.getCenter().y - initialLeftCenter.y;
     let deltaPoint = new OpenSeadragon.Point(deltaX, deltaY).rotate(
       leftViewer.viewport.getRotation() - rightViewer.viewport.getRotation()
-    ); // The change in coordinates in the frame of the rightViewer
+    ); // The change in coordinates in the relative frame
+
     let targetCenter = new OpenSeadragon.Point(
       initialLeftCenter.x + deltaPoint.x,
       initialLeftCenter.y + deltaPoint.y
-    );
+    ); // final coordinates of the center in the relative frame
+
     rightViewer.viewport.panTo(targetCenter);
     leftViewerLeading = false;
   }
@@ -121,7 +121,7 @@ function leftHandler() {
 
 function rightHandler() {
   if (leftViewerLeading) {
-    return;
+    return; // to prevent unnecessary call stack of the event handler
   }
 
   if (sync) {
@@ -129,15 +129,18 @@ function rightHandler() {
     let zoomRatio = rightViewer.viewport.getZoom() / initialRightZoom;
     let finalZoom = zoomRatio * initialLeftZoom;
     leftViewer.viewport.zoomTo(finalZoom);
+
     deltaX = rightViewer.viewport.getCenter().x - initialRightCenter.x;
     deltaY = rightViewer.viewport.getCenter().y - initialRightCenter.y;
     let deltaPoint = new OpenSeadragon.Point(deltaX, deltaY).rotate(
       rightViewer.viewport.getRotation() - leftViewer.viewport.getRotation()
     ); // The change in coordinates in the frame of the leftViewer
+
     let targetCenter = new OpenSeadragon.Point(
       initialLeftCenter.x + deltaPoint.x,
       initialLeftCenter.y + deltaPoint.y
-    );
+    ); // final coordinates of the center in the relative frame
+
     leftViewer.viewport.panTo(targetCenter);
     rightViewerLeading = false;
   }
